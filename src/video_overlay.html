@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hello World!</title>
+    <style>
+        body {
+            margin: 1em;
+            height: 100%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            max-width: 1280px;
+            height: calc(100% - 2em);
+            margin: 0 auto;
+        }
+
+        .wrapper>div {
+            background: url(portrait.png) no-repeat center #EEE;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            color: #000000;
+            background-size: contain;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-template-areas:
+                "empty empty empty empty"
+                "c1 c2 c3 c4";
+            grid-template-columns: repeat(4, 200px);
+            grid-template-rows: 1fr 240px;
+        }
+
+    </style>
+    <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div style="grid-area: c1"></div>
+        <div style="grid-area: c2"></div>
+        <div style="grid-area: c3"></div>
+        <div style="grid-area: c4"></div>
+    </div>
+</body>
+
+</html>

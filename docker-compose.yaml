@@ -1,0 +1,11 @@
+services:
+  apache:
+    image: nginx:latest
+    container_name: ladyv
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/var/www/html/
+      - ./conf/nginx/:/etc/nginx/conf.d/:ro
+      - ./conf/certs/:/etc/nginx/certs/:ro
