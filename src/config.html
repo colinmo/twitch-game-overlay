@@ -68,11 +68,26 @@
         });
 
         document.getElementById("twitchsrc").addEventListener('load', (e) => {
-            data = JSON.parse(window.Twitch.ext.configuration.broadcaster  ? window.Twitch.ext.configuration.broadcaster.content : '{"characters":[]}')
-            AllConfig.characters = data.characters
-            AllConfig.characters.forEach((char) => {
-                characterHolder.innerHTML += char.getConfigAvatar();
-            })
+            console.log("Loaded")
+            var data = {"characters":[]}
+            window.Twitch.ext.onAuthorized(auth => {
+                console.log("Authorised")
+                window.Twitch.ext.configuration.onChanged(() => {
+                    console.log("Changed")
+                    var broadcaster_config = window.Twitch.ext.configuration.broadcaster;
+                    if (broadcaster_config && broadcaster_config.content) {
+                        try{
+                            data = JSON.parse(broadcaster_config.content)
+                            // we have broadcaster config loaded and parsed it to JSON
+                        } catch (e) {
+                        }
+                    }
+                    AllConfig.characters = data.characters
+                    AllConfig.characters.forEach((char) => {
+                        characterHolder.innerHTML += char.getConfigAvatar();
+                    });
+                });
+            });
         });
 
         const fileInput = document.getElementById("portrait");
