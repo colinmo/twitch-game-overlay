@@ -3,10 +3,9 @@
 
 <head>
     <title>Config</title>
-    <script src="overlay.js"></script>
     <script async defer id="twitchsrc" src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="config.css" />
 </head>
-
 <body>
     <h1>Lady V's RPG</h1>
     <form id="mainform">
@@ -25,96 +24,7 @@
         </fieldset>
         <input type="submit" id="submit" value="Confirm settings">
     </form>
-    <script>
-        var editingIndex = -1;
-        const characterHolder = document.getElementById("characters");
-        var imageDataUrl = "";
-
-        document.getElementById("save").addEventListener('click', (e) => {
-            e.preventDefault()
-            char = new Character()
-            char.setAll(
-                document.getElementById("name").value,
-                document.getElementById("stats").value,
-                document.getElementById("player").value,
-                imageDataUrl
-            );
-            if (editingIndex == -1) {
-                // Add
-                characterHolder.innerHTML += char.getConfigAvatar();
-            } else {
-                // Edit
-                document.querySelector(`#characters div:nth-child(${editingIndex})`).outerHTML = char.getConfigAvatar();
-            }
-        });
-
-        document.getElementById("delete").addEventListener('click', (e) => {
-            e.preventDefault()
-            if (window.confirm("Really delete?")) {
-
-            }
-        })
-
-        document.getElementById("mainform").addEventListener('submit', (ev) => {
-            ev.preventDefault();
-            AllConfig.characters = [];
-            document.querySelectorAll('#characters > div').forEach((e) => {
-                char = new Character()
-                char.setFromElement(e);
-                AllConfig.characters.push(char)
-            })
-            // Update config
-            window.Twitch.ext.configuration.set('broadcaster', '1.0', AllConfig.toString())
-        });
-
-        document.getElementById("twitchsrc").addEventListener('load', (e) => {
-            console.log("Loaded")
-            var data = {"characters":[]}
-            window.Twitch.ext.onAuthorized(auth => {
-                console.log("Authorised")
-                window.Twitch.ext.configuration.onChanged(() => {
-                    console.log("Changed")
-                    var broadcaster_config = window.Twitch.ext.configuration.broadcaster;
-                    if (broadcaster_config && broadcaster_config.content) {
-                        try{
-                            data = JSON.parse(broadcaster_config.content)
-                            // we have broadcaster config loaded and parsed it to JSON
-                        } catch (e) {
-                        }
-                    }
-                    AllConfig.characters = data.characters
-                    AllConfig.characters.forEach((char) => {
-                        characterHolder.innerHTML += char.getConfigAvatar();
-                    });
-                });
-            });
-        });
-
-        const fileInput = document.getElementById("portrait");
-        fileInput.addEventListener('change', (event) => {
-            // Get the selected image file
-            const imageFile = event.target.files[0];
-
-            if (imageFile) {
-                const reader = new FileReader();
-
-                // Convert the image file to a string
-                reader.readAsDataURL(imageFile);
-
-                // FileReader will emit the load event when the data URL is ready
-                // Access the string using result property inside the callback function
-                reader.addEventListener('load', () => {
-                    // Get the data URL string
-                    imageDataUrl = reader.result;
-                });
-            }
-        });
-    </script>
-    <style type="text/css">
-        label {
-            display: block;
-        }
-    </style>
+    <script src="config.js"></script>
 </body>
 
 </html>
