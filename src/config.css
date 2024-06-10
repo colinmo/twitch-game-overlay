@@ -5,3 +5,40 @@ body {
     color: white;
     background: black;
 }
+
+.portrait {
+    background-position-x: center;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #000;
+    height: 250px;
+    width: 200px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: relative;
+    border: 5px groove brown;
+}
+
+.portrait div {
+    overflow-y: scroll;
+    height: 250px;
+    width: 200px;
+    opacity: 0;
+    transition-duration: 2s;
+    transition-property: opacity;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.portrait div.active {
+    opacity: 1;
+    z-index: 20;
+}
+
+.portrait div.frontplate {
+    opacity: 0;
+    z-index: 30;
+}

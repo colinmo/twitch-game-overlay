@@ -3,7 +3,7 @@
 
 <head>
     <title>Config</title>
-    <script async defer id="twitchsrc" src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+    <script id="twitchsrc" src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
     <link rel="stylesheet" type="text/css" href="config.css" />
 </head>
 <body>
@@ -15,10 +15,10 @@
         <fieldset id="character-edit">
             <legend>Add character</legend>
             <img id="dataurlimage">
-            <label>Portrait <input type="file" id="portrait"></label>
-            <label>Stats <textarea id="stats"></textarea></label>
-            <label>Name <input type="text" id="name"></label>
-            <label>Player <input type="text" id="player"></label>
+            <label>Portrait <input type="file" id="newportrait"></label>
+            <label>Stats <textarea id="newstats"></textarea></label>
+            <label>Name <input type="text" id="newname"></label>
+            <label>Player <input type="text" id="newplayer"></label>
             <button id="save">Save</button>
             <button id="delete">Delete</button>
         </fieldset>

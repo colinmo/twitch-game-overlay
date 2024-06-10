@@ -64,10 +64,10 @@ class Character {
         return this;
     }
     getConfigAvatar() {
-        return `<div style="display: inline-block;padding-right: 10px;">${this.getDisplayAvatar()}<br /><button class="edit">Edit</button><button class="delete">Delete</button></div>`
+        return `<div style="display: inline-block;padding-right: 10px;">${this.getDisplayAvatar()}<br /><button class="edit">Edit</button><button class="delete" onclick="deleteMe(event);">Delete</button></div>`
     }
     getDisplayAvatar() {
-        return `<div class="portrait" style="background: url(${this.portrait}) no-repeat center #eee;background-size: contain;height: 200px; width: 150px;overflow-y:scroll;"><div class="player">${this.player}</div><div class="stats">${this.stats}</div><div class="name">${this.name}</div></div>`;
+        return `<div class="portrait" style="background-image: url(${this.portrait});"><div class="player">${this.player}</div><div class="stats">${this.stats}</div><div class="name active">${this.name}</div><div class="frontplate" onclick="togglePlate(event)"></div></div>`;
     }
     getSaveRepresentation() {
         var steve = JSON.stringify(this);
@@ -114,13 +114,24 @@ var editingIndex = -1;
 const characterHolder = document.getElementById("characters");
 var imageDataUrl = "";
 
+function togglePlate(t) {
+    console.log('hi', t.target);
+    let steve = t.target.parentElement.querySelector('div.active'),
+        dave = t.target.parentElement.querySelector('div.active + div:not(.frontplate)');
+    if (dave == null) {
+        dave = t.target.parentElement.querySelector('div:first-child');
+    }
+    steve.classList.remove('active');
+    dave.classList.add('active');
+}
+
 document.getElementById("save").addEventListener('click', (e) => {
     e.preventDefault()
     char = new Character()
     char.setAll(
-        document.getElementById("name").value,
-        document.getElementById("stats").value,
-        document.getElementById("player").value,
+        document.getElementById("newname").value,
+        document.getElementById("newstats").value,
+        document.getElementById("newplayer").value,
         imageDataUrl
     );
     if (editingIndex == -1) {
@@ -132,12 +143,12 @@ document.getElementById("save").addEventListener('click', (e) => {
     }
 });
 
-document.getElementById("delete").addEventListener('click', (e) => {
+function deleteMe(e) {
     e.preventDefault()
     if (window.confirm("Really delete?")) {
-
+        e.target.parentNode.parentNode.removeChild(e.target.parentNode)
     }
-})
+}
 
 document.getElementById("mainform").addEventListener('submit', (ev) => {
     ev.preventDefault();
@@ -150,44 +161,56 @@ document.getElementById("mainform").addEventListener('submit', (ev) => {
     // Update config
     console.log(`Saving ${AllConfig.toString()}`)
     try {
-        window.Twitch.ext.configuration.set('broadcaster', '1.0', AllConfig.toString())
+        window.Twitch.ext.configuration.set('broadcaster', '', AllConfig.toString())
     } catch (e) {
         console.log(e);
     }
 });
 
-// document.getElementById("twitchsrc").addEventListener('load', (e) => {
+var data = { "characters": [] }
+var repeat = 0
 document.addEventListener("DOMContentLoaded", (event) => {
-    console.log("Loaded")
-    var data = { "characters": [] }
-    //window.Twitch.ext.onAuthorized(auth => {
-    //    console.log("Authorised")
-    window.Twitch.ext.configuration.onChanged(() => {
-        console.log("Changed")
-        var broadcaster_config = window.Twitch.ext.configuration.broadcaster;
-        if (broadcaster_config && broadcaster_config.content) {
-            try {
-                data = JSON.parse(broadcaster_config.content)
-                // we have broadcaster config loaded and parsed it to JSON
-            } catch (e) {
-            }
+    repeat = setInterval(() => {
+        console.log("Checking")
+        console.log(typeof window.Twitch)
+        if (typeof window.Twitch == 'undefined') {
+            console.log("No")
+            return;
         }
-        AllConfig.characters = [];
-        data.characters.forEach((e) => {
-            let c = new Character()
-            c.setFromObject(e)
-            AllConfig.characters.push(c)
-        })
-        AllConfig.characters.forEach((char) => {
-            characterHolder.innerHTML += char.getConfigAvatar();
+        clearInterval(repeat)
+        window.Twitch.ext.configuration.onChanged(() => {
+            console.log("Changed")
+            getConfigLoaded()
         });
-    });
-    //});
-    //});
+        if (typeof window.Twitch.ext.configuration.broadcaster != 'undefined') {
+            console.log("Already")
+            getConfigLoaded()
+        }
+    }, 500);
+    console.log("Waiting")
 });
-console.log("Waiting")
 
-const fileInput = document.getElementById("portrait");
+async function getConfigLoaded() {
+    var broadcaster_config = window.Twitch.ext.configuration.broadcaster;
+    if (broadcaster_config && broadcaster_config.content) {
+        try {
+            data = JSON.parse(broadcaster_config.content)
+            // we have broadcaster config loaded and parsed it to JSON
+        } catch (e) {
+        }
+    }
+    AllConfig.characters = [];
+    data.characters.forEach((e) => {
+        let c = new Character()
+        c.setFromObject(e)
+        AllConfig.characters.push(c)
+    })
+    AllConfig.characters.forEach((char) => {
+        characterHolder.innerHTML += char.getConfigAvatar();
+    });
+}
+
+const fileInput = document.getElementById("newportrait");
 fileInput.addEventListener('change', (event) => {
     // Get the selected image file
     const imageFile = event.target.files[0];
