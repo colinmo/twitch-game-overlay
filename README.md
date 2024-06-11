@@ -4,12 +4,23 @@
 
 A twitch overlay for Lady V's D&D streams that shows an interactive plate for viewers of the stream during games.
 
-* Clickable character portraits that show name/ player/ stats/ character portrait
+![Mockup](mockup.png)
+
+* Icon on the stream that can be clicked to open the window
+* Contents of the window
+  * Name of campaign
+  * Link to Summary
+    * What's in here? Just text?
+  * Link to Character (multiple)
+    * Character name
+    * Race+class
+    * Level
+    * Max HP and AC
+    * Str, Dex, Con, Wis, Int, Cha
 
 ### Stretch Goals
 
 * Genericise it so anyone can use it
-
 
 # Starting up
 
