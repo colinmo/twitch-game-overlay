@@ -1,0 +1,84 @@
+.display-screen {
+    background: rgba(0, 0, 0, 0.3);
+    color: goldenrod;
+    border: 2px solid goldenrod;
+    width: 20em;
+    font-family: "MedievalSharp", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#acharacter {
+    width: 20em;
+    display: grid;
+    grid-template-areas:
+        "title title title title title title"
+        "meta meta meta meta meta meta"
+        "level level level level level level"
+        "hp hp hp ac ac ac"
+        "str str dex dex con con"
+        "wis wis int int cha cha";
+    grid-template-rows: 2fr 0fr repeat(4,2fr);
+}
+
+#acharacter div {
+    text-align: center;
+    font-size: 1.8em;
+}
+
+
+#acharacter div.chartitle {
+    grid-area: title;
+    font-size: 2em;
+}
+
+
+#acharacter div.charmeta {
+    grid-area: meta;
+    font-size: 1.2em;
+}
+
+
+#acharacter div.charlevel {
+    grid-area: level;
+}
+
+
+#acharacter div.charhp {
+    grid-area: hp;
+}
+
+
+#acharacter div.charac {
+    grid-area: ac;
+}
+
+
+#acharacter div.charstr {
+    grid-area: str;
+}
+
+
+#acharacter div.chardex {
+    grid-area: dex;
+}
+
+
+#acharacter div.charcon {
+    grid-area: con;
+}
+
+
+#acharacter div.charwis {
+    grid-area: wis;
+}
+
+
+#acharacter div.charint {
+    grid-area: int;
+}
+
+
+#acharacter div.charcha {
+    grid-area: cha;
+}

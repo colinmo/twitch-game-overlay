@@ -5,20 +5,42 @@
     <title>Config</title>
     <script id="twitchsrc" src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
     <link rel="stylesheet" type="text/css" href="config.css" />
+    <link rel="stylesheet" type="text/css" href="video_overlay.css" /><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>Lady V's RPG</h1>
     <form id="mainform">
+        <fieldset id="campaign">
+            <legend>Campaign information</legend>
+            <label for="capname">Name</label>
+            <input type="text" id="capname" name="capname" />
+            <label for="capsumm">Summary</label>
+            <textarea id="capsumm" name="capsumm"></textarea>
+            <label for="capicon">Game icon</label>
+            <input type="file" id="gameicon" name="gameicon" />
+        </fieldset>
         <fieldset id="characters">
             <legend>All characters</legend>
         </fieldset>
         <fieldset id="character-edit">
             <legend>Add character</legend>
-            <img id="dataurlimage">
-            <label>Portrait <input type="file" id="newportrait"></label>
-            <label>Stats <textarea id="newstats"></textarea></label>
-            <label>Name <input type="text" id="newname"></label>
-            <label>Player <input type="text" id="newplayer"></label>
+            <label>Name <input type="text" id="newname" class="name"></label>
+            <label>Race <input type="text" id="newrace" class="race"></label>
+            <label>Class <input type="text" id="newclass" class="class"></label>
+            <label>Level <input type="text" id="newlevel" class="level"></label>
+            <label>MaxHP <input type="text" id="newmaxhp" class="maxhp"></label>
+            <label>AC <input type="text" id="newac" class="ac"></label>
+            <fieldset>
+                <legend>Stats</legend>
+                <label>Str <input type="text" id="newstr" class="str"></label>
+                <label>Dex <input type="text" id="newdex" class="dex"></label>
+                <label>Con <input type="text" id="newcon" class="con"></label>
+                <label>Wis <input type="text" id="newwis" class="wis"></label>
+                <label>Int <input type="text" id="newint" class="int"></label>
+                <label>Cha <input type="text" id="newcha" class="cha"></label>
+            </fieldset>
             <button id="save">Save</button>
             <button id="delete">Delete</button>
         </fieldset>

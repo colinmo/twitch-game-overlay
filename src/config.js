@@ -1,38 +1,59 @@
 class Character {
     stats = {};
     name = {};
-    portrait = {};
-    player = {};
+    class = {};
+    race = {}
+    level = {}
+    maxhp = {}
+    ac = {}
 
     constructor() {
-        this.stats = "";
+        this.stats = { "str": 0, "dex": 0, "con": 0, "wis": 0, "int": 0, "cha": 0 };
         this.name = "";
-        this.player = "";
-        this.portrait = "";
+        this.class = "";
+        this.race = "";
+        this.level = "";
+        this.maxhp = "";
+        this.ac = "";
     }
 
-    setAll(name, stats, player, portrait) {
+    setAll(stats, name, nclass, race, level, maxhp, ac) {
         this.stats = stats;
         this.name = name;
-        this.player = player;
-        this.portrait = portrait;
+        this.class = nclass;
+        this.race = race;
+        this.level = level;
+        this.maxhp = maxhp;
+        this.ac = ac;
         return this
     }
 
     setFromElement(element) {
-        this.stats = element.querySelector('.stats').innerHTML,
-            this.name = element.querySelector('.name').innerHTML,
-            this.player = element.querySelector('.player').innerHTML,
-            this.portrait = element.querySelector('.portrait').style.backgroundImage
+        this.stats = {
+            "str": element.querySelector('.str').value,
+            "dex": element.querySelector('.dex').value,
+            "con": element.querySelector('.con').value,
+            "wis": element.querySelector('.wis').value,
+            "int": element.querySelector('.int').value,
+            "cha": element.querySelector('.cha').value,
+        };
+        this.name = element.querySelector('.name').value;
+        this.class = element.querySelector('.class').value;
+        this.race = element.querySelector('.race').value;
+        this.level = element.querySelector('.level').value;
+        this.maxhp = element.querySelector('.maxhp').value;
+        this.ac = element.querySelector('.ac').value;
         return this
     }
 
     setFromObject(obj) {
         this.stats = obj.stats;
         this.name = obj.name;
-        this.player = obj.player;
-        this.portrait = obj.portrait;
-
+        this.class = obj.class;
+        this.race = obj.race;
+        this.level = obj.level;
+        this.maxhp = obj.maxhp;
+        this.ac = obj.ac;
     }
 
     getStats() {
@@ -49,29 +70,59 @@ class Character {
         this.name = myname;
         return this;
     }
-    getPortrait() {
-        return this.portrait;
+    getClass() {
+        return this.class;
     }
-    setPortrait(port) {
-        this.portrait = port;
+    setClass(value) {
+        this.class = value;
         return this;
     }
-    getPlayer() {
-        return this.player;
+    getRace() {
+        return this.race;
     }
-    setPlayer(play) {
-        this.player = play;
+    setRace(value) {
+        this.race = value;
         return this;
     }
-    getConfigAvatar() {
-        return `<div style="display: inline-block;padding-right: 10px;">${this.getDisplayAvatar()}<br /><button class="edit">Edit</button><button class="delete" onclick="deleteMe(event);">Delete</button></div>`
+    getLevel() {
+        return this.level;
     }
-    getDisplayAvatar() {
-        return `<div class="portrait" style="background-image: url(${this.portrait});"><div class="player">${this.player}</div><div class="stats">${this.stats}</div><div class="name active">${this.name}</div><div class="frontplate" onclick="togglePlate(event)"></div></div>`;
+    setLevel(value) {
+        this.level = value;
+        return this;
+    }
+    getMaxhp() {
+        return this.maxhp;
+    }
+    setMaxhp(value) {
+        this.maxhp = value;
+        return this;
+    }
+    getAc() {
+        return this.ac;
+    }
+    setAc(value) {
+        this.ac = value;
+        return this;
     }
     getSaveRepresentation() {
-        var steve = JSON.stringify(this);
-        return steve;
+        return JSON.stringify(this);
+    }
+
+    getConfigAvatar() {
+        console.log(this);
+        return `<div id="acharacter">
+        <div class="chartitle">${this.name}</div>
+        <div class="charmeta">${this.race} ${this.class}</div>
+        <div class="charlevel">level ${this.level}</div>
+        <div class="charhp">HP ${this.maxhp}</div>
+        <div class="charac">AC ${this.ac}</div>
+        <div class="charstr">Str ${this.stats.str}</div>
+        <div class="chardex">Dex ${this.stats.dex}</div>
+        <div class="charcon">Con ${this.stats.con}</div>
+        <div class="charwis">Wis ${this.stats.wis}</div>
+        <div class="charint">Int ${this.stats.int}</div>
+        <div class="charcha">Cha ${this.stats.cha}</div></div>`;
     }
 }
 
@@ -98,13 +149,16 @@ class Overlay {
 
 class AllConfigClass {
     characters = []
+    campaign = ""
+    summary = ""
+    icon = "";
     toString() {
         var returning = `{"characters": `;
         var chars = [];
         AllConfig.characters.forEach((e) => {
             chars.push(e)
         })
-        return JSON.stringify({ "characters": AllConfig.characters });
+        return JSON.stringify({ "campaign": this.campaign, "summary": this.summary, "characters": AllConfig.characters });
     }
 
 }
@@ -114,39 +168,23 @@ var editingIndex = -1;
 const characterHolder = document.getElementById("characters");
 var imageDataUrl = "";
 
-function togglePlate(t) {
-    console.log('hi', t.target);
-    let steve = t.target.parentElement.querySelector('div.active'),
-        dave = t.target.parentElement.querySelector('div.active + div:not(.frontplate)');
-    if (dave == null) {
-        dave = t.target.parentElement.querySelector('div:first-child');
-    }
-    steve.classList.remove('active');
-    dave.classList.add('active');
-}
-
 document.getElementById("save").addEventListener('click', (e) => {
     e.preventDefault()
     char = new Character()
-    char.setAll(
-        document.getElementById("newname").value,
-        document.getElementById("newstats").value,
-        document.getElementById("newplayer").value,
-        imageDataUrl
-    );
+    char.setFromElement(document.getElementById("character-edit"));
     if (editingIndex == -1) {
         // Add
-        characterHolder.innerHTML += char.getConfigAvatar();
+        characterHolder.innerHTML += `<div class="display-screen">${char.getConfigAvatar()}</div>`;
     } else {
         // Edit
-        document.querySelector(`#characters div:nth-child(${editingIndex})`).outerHTML = char.getConfigAvatar();
+        document.querySelector(`#characters div:nth-child(${editingIndex})`).innerHTML = char.getConfigAvatar();
     }
 });
 
 function deleteMe(e) {
     e.preventDefault()
     if (window.confirm("Really delete?")) {
-        e.target.parentNode.parentNode.removeChild(e.target.parentNode)
+        e.target.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode)
     }
 }
 
@@ -208,9 +246,12 @@ async function getConfigLoaded() {
     AllConfig.characters.forEach((char) => {
         characterHolder.innerHTML += char.getConfigAvatar();
     });
+    AllConfig.campaign = data.campaign
+    AllConfig.summary = data.summary
+    AllConfig.icon = data.icon
 }
 
-const fileInput = document.getElementById("newportrait");
+const fileInput = document.getElementById("gameicon");
 fileInput.addEventListener('change', (event) => {
     // Get the selected image file
     const imageFile = event.target.files[0];
@@ -225,7 +266,7 @@ fileInput.addEventListener('change', (event) => {
         // Access the string using result property inside the callback function
         reader.addEventListener('load', () => {
             // Get the data URL string
-            imageDataUrl = reader.result;
+            AllConfig.icon = reader.result;
         });
     }
 });
