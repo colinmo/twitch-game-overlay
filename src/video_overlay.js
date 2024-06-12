@@ -205,8 +205,8 @@ async function getConfigLoaded() {
     if (typeof editDisplayMode != "undefined") {
         editDisplayMode(data.campaign, data.summary);
     } else {
-        document.getElementById("campname").innerHTML = data.campaign;
-        document.getElementById("campsummary").innerHTML = data.summary;
+        document.getElementById("campname").innerText = data.campaign;
+        document.getElementById("campsummary").innerText = data.summary;
         list = document.getElementById("campcharacters");
         index = 0;
         AllConfig.characters.forEach((char) => {
