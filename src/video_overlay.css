@@ -1,5 +1,5 @@
 .display-screen {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.9);
     color: goldenrod;
     border: 2px solid goldenrod;
     width: 20em;
@@ -8,7 +8,7 @@
     font-style: normal;
 }
 
-#acharacter {
+.acharacter {
     width: 20em;
     display: grid;
     grid-template-areas:
@@ -21,64 +21,87 @@
     grid-template-rows: 2fr 0fr repeat(4,2fr);
 }
 
-#acharacter div {
+.acharacter label:first-of-type {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index:2;
+    transform-origin: center center;
+    transform: rotate(180deg);
+    font-size: larger;
+}
+label[for=showwindow] {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    z-index: 2;
+}
+
+.acharacter div {
     text-align: center;
     font-size: 1.8em;
 }
 
 
-#acharacter div.chartitle {
+.acharacter div.name {
     grid-area: title;
     font-size: 2em;
 }
 
 
-#acharacter div.charmeta {
+.acharacter div.meta {
     grid-area: meta;
     font-size: 1.2em;
 }
 
 
-#acharacter div.charlevel {
+.acharacter div.level {
     grid-area: level;
 }
 
 
-#acharacter div.charhp {
+.acharacter div.maxhp {
     grid-area: hp;
 }
 
 
-#acharacter div.charac {
+.acharacter div.ac {
     grid-area: ac;
 }
 
 
-#acharacter div.charstr {
+.acharacter div.str {
     grid-area: str;
 }
 
 
-#acharacter div.chardex {
+.acharacter div.dex {
     grid-area: dex;
 }
 
 
-#acharacter div.charcon {
+.acharacter div.con {
     grid-area: con;
 }
 
 
-#acharacter div.charwis {
+.acharacter div.wis {
     grid-area: wis;
 }
 
 
-#acharacter div.charint {
+.acharacter div.int {
     grid-area: int;
 }
 
 
-#acharacter div.charcha {
+.acharacter div.cha {
     grid-area: cha;
+}
+
+#campname { 
+    text-align: center;
+}
+#campsummary {
+    text-align: center;
 }

@@ -19,39 +19,95 @@
             margin: 0 auto;
         }
 
-        .wrapper>div {
-            background: url(portrait.png) no-repeat center #EEE;
-            -moz-border-radius: 2px;
-            -webkit-border-radius: 2px;
-            border-radius: 2px;
-            color: #000000;
-            background-size: contain;
+        .wrapper .toggle-display {
+            position: absolute;
+            right: 0;
+            top: calc(50% - 50px);
+            height: 100px;
+            width: min-content;
+            padding-right: 5px;
         }
 
-        .wrapper {
-            display: grid;
-            grid-template-areas:
-                "empty empty empty empty"
-                "c1 c2 c3 c4";
-            grid-template-columns: repeat(4, 200px);
-            grid-template-rows: 1fr 240px;
+        #showwindow {
+            position: absolute;
+            left: -9999px;
+            width: 0;
+            height: 0;
         }
 
+        #showwindow+div.display-window {
+            display: none;
+        }
+
+        #showwindow:checked+div.display-window {
+            display: block;
+        }
+
+        .display-window {
+            position: absolute;
+            left: 0;
+            top: calc(50% - 125px);
+            height: 250px;
+            width: 220px;
+        }
+
+        #campcharacters {
+            list-style-type: none;
+            text-align: center;
+            padding-left: 0px;
+        }
+
+        #characters {
+            position: absolute;
+        }
+
+        #characters > div{
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        input[name=showcreen]:checked + div {
+            display: grid !important;
+        }
+        input[name="showcreen"]:not(:checked) + div {
+            display: none !important;
+        }
+        input[type=radio] {
+            position: absolute;
+            left: -999999px;
+            width:0;
+            height:0;
+        }
     </style>
-    <script src="overlay.js"></script>
-    <script async  src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+    <script async src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="video_overlay.css" />
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="wrapper">
-        <div style="grid-area: c1"></div>
-        <div style="grid-area: c2"></div>
-        <div style="grid-area: c3"></div>
-        <div style="grid-area: c4"></div>
+        <div class="toggle-display"><label for="showwindow">XX</label></div>
+        <input type="checkbox" id="showwindow" name="showwindow" value="X" />
+        <div class="display-window  display-screen">
+            <input type="radio" id="showscreen" name="showcreen" value="X" checked >
+            <div id="basics">
+                <label for="showwindow">&#x2718;</label>
+                <div id="campname"></div>
+                <p id="campsummary"></p>
+                <ul id="campcharacters">
+
+                </ul>
+            </div>
+            <div id="characters">
+    
+            </div>
+        </div>
     </div>
+    <script src="video_overlay.js"></script>
 </body>
 
 </html>

@@ -17,9 +17,7 @@
             <label for="capname">Name</label>
             <input type="text" id="capname" name="capname" />
             <label for="capsumm">Summary</label>
-            <textarea id="capsumm" name="capsumm"></textarea>
-            <label for="capicon">Game icon</label>
-            <input type="file" id="gameicon" name="gameicon" />
+            <textarea id="capsumm" name="capsumm" rows="6" cols="50"></textarea>
         </fieldset>
         <fieldset id="characters">
             <legend>All characters</legend>
@@ -42,11 +40,12 @@
                 <label>Cha <input type="text" id="newcha" class="cha"></label>
             </fieldset>
             <button id="save">Save</button>
-            <button id="delete">Delete</button>
         </fieldset>
         <input type="submit" id="submit" value="Confirm settings">
     </form>
+    <dialog id="delete-dialog">Really delete? <button value="yes">Yes</button><button value="no">No</button></dialog>
     <script src="config.js"></script>
+    <script src="video_overlay.js"></script>
 </body>
 
 </html>
