@@ -1,19 +1,38 @@
-
-
-var editingIndex = -1;
+var editingTarget = null;
 var imageDataUrl = "";
+
+var deletedia = document.getElementById("delete-dialog"),
+    immadelete = {};
+deletedia.querySelector("button[value=yes]").addEventListener("click", (e) => { console.log("yes"); immadelete.parentNode.removeChild(immadelete); deletedia.close(); });
+deletedia.querySelector("button[value=no]").addEventListener("click", (e) => { console.log("no"); deletedia.close(); });
 
 document.getElementById("save").addEventListener('click', (e) => {
     e.preventDefault()
     char = new Character()
     char.setFromElement(document.getElementById("character-edit"));
-    if (editingIndex == -1) {
+    console.log(editingTarget);
+    if (editingTarget == null) {
         // Add
-        characterHolder.innerHTML += `<div class="display-screen">${char.getConfigAvatar()}<button data-action="edit">Edit</button><button data-action="delete">Delete</button></div></div>`;
+        console.log("Add");
+        characterHolder.innerHTML += `<div class="display-screen">${char.getConfigAvatar()}<button data-action="edit">Edit</button><button data-action="delete">Delete</button></div>`;
     } else {
         // Edit
-        document.querySelector(`#characters div:nth-child(${editingIndex})`).innerHTML = char.getConfigAvatar();
+        console.log("Edit");
+        editingTarget.innerHTML = `${char.getConfigAvatar()}<button data-action="edit">Edit</button><button data-action="delete">Delete</button>`;
+        editingTarget = null;
     }
+    document.querySelector('#character-edit .str').value = ""
+    document.querySelector('#character-edit .dex').value = ""
+    document.querySelector('#character-edit .con').value = ""
+    document.querySelector('#character-edit .wis').value = ""
+    document.querySelector('#character-edit .int').value = ""
+    document.querySelector('#character-edit .cha').value = ""
+    document.querySelector('#character-edit .name').value = ""
+    document.querySelector('#character-edit .class').value = ""
+    document.querySelector('#character-edit .race').value = ""
+    document.querySelector('#character-edit .level').value = ""
+    document.querySelector('#character-edit .maxhp').value = ""
+    document.querySelector('#character-edit .ac').value = ""
 });
 
 function deleteMe(e) {
@@ -22,17 +41,38 @@ function deleteMe(e) {
     deletedia.showModal();
 }
 
-function editDisplayMode(campaign, summary) {
+function readyToGo(data) {
     AllConfig.characters.forEach((char) => {
-        characterHolder.innerHTML += `<div class="display-screen">` + char.getConfigAvatar().replace("</div></div>", `</div><button data-action="edit">Edit</button><button data-action="delete">Delete</button></div></div>`);
+        characterHolder.innerHTML += `<div class="display-screen">${char.getConfigAvatar()}<button data-action="edit">Edit</button><button data-action="delete">Delete</button></div>`;
     });
-    document.getElementById("capname").value = campaign;
-    document.getElementById("capsumm").value = summary;
+    document.getElementById("capname").value = data.campaign;
+    document.getElementById("capsumm").value = data.summary;
 }
 
 document.getElementById("mainform").addEventListener('submit', (ev) => {
     if (ev.submitter.dataset.action == "delete") {
         deleteMe(ev.submitter);
+        ev.preventDefault();
+        return;
+    }
+    if (ev.submitter.dataset.action == "edit") {
+        editingTarget = ev.submitter.parentNode;
+        console.log(editingTarget);
+        char = new Character();
+        char.setFromElement(editingTarget);
+        console.log(char);
+        document.querySelector('#character-edit .str').value = char.stats.str
+        document.querySelector('#character-edit .dex').value = char.stats.dex
+        document.querySelector('#character-edit .con').value = char.stats.con
+        document.querySelector('#character-edit .wis').value = char.stats.wis
+        document.querySelector('#character-edit .int').value = char.stats.int
+        document.querySelector('#character-edit .cha').value = char.stats.cha
+        document.querySelector('#character-edit .name').value = char.name
+        document.querySelector('#character-edit .class').value = char.class
+        document.querySelector('#character-edit .race').value = char.race
+        document.querySelector('#character-edit .level').value = char.level
+        document.querySelector('#character-edit .maxhp').value = char.maxhp
+        document.querySelector('#character-edit .ac').value = char.ac
         ev.preventDefault();
         return;
     }
@@ -47,41 +87,17 @@ document.getElementById("mainform").addEventListener('submit', (ev) => {
         AllConfig.characters.push(char)
     })
     // Update config
-    console.log(`Saving ${AllConfig.toString()}`)
     try {
-        window.Twitch.ext.configuration.set('broadcaster', '', AllConfig.toString())
+        Twitch.ext.configuration.set('broadcaster', '', AllConfig.toString())
     } catch (e) {
-        console.log(e);
+        console.error("Save", e);
+    }
+    try {
+        Twitch.ext.send("broadcaster", "application/json", AllConfig.toString());
+    } catch (e) {
+        console.error("Send", e);
     }
 });
 
 var data = { "characters": [] }
 var repeat = 0
-
-/*
-const fileInput = document.getElementById("gameicon");
-fileInput.addEventListener('change', (event) => {
-    // Get the selected image file
-    const imageFile = event.target.files[0];
-
-    if (imageFile) {
-        const reader = new FileReader();
-
-        // Convert the image file to a string
-        reader.readAsDataURL(imageFile);
-
-        // FileReader will emit the load event when the data URL is ready
-        // Access the string using result property inside the callback function
-        reader.addEventListener('load', () => {
-            // Get the data URL string
-            AllConfig.icon = reader.result;
-        });
-    }
-});
-
-*/
-
-var deletedia = document.getElementById("delete-dialog"),
-    immadelete = {};
-deletedia.querySelector("button[value=yes]").addEventListener("click", (e) => { console.log("yes"); immadelete.parentNode.removeChild(immadelete); deletedia.close(); });
-deletedia.querySelector("button[value=no]").addEventListener("click", (e) => { console.log("no"); deletedia.close(); });
