@@ -37,15 +37,22 @@ A twitch overlay for Lady V's D&D streams that shows an interactive plate for vi
 
 ## Testing
 
+* Generate a crt/key certificate pair for the nginx server under `conf/certs`
+  * `sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout conf/certs/nginx.key -out conf/certs/nginx.crt`
 * Run `docker-compose up --build`
   * This starts a local web server, with the same address as the Twitch overlay
 * Start a stream in your streaming software
   * You need to have a running stream for the overlay to run
 * Interact
 
-## Going live
+## Production release
 
-TBD
+* zip all the files under `src/` to a zip file
+  * Note: there's a [task](https://taskfile.dev) script that zips this for you, putting the contents in the `deploy/` folder.
+* Upload that zip file to Twitch using the `https://dev.twitch.tv/console/extensions/[ext]/[version]/status` window for uploading files
+* Submit for review and wait.
+
+## Usage
 
 # Todo
 

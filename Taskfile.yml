@@ -1,0 +1,20 @@
+version: '3'
+
+vars: 
+  ZipName: deploy/ladyv.zip
+
+tasks:
+    clear: 
+      ignore_error: true
+      cmds:
+        - cmd: 'powershell Remove-Item -Path {{.ZipName}}'
+          platforms: [windows]
+        - cmd: rm -fr {{.ZipName}}
+          platforms: [darwin,linux]
+    build: 
+      cmds:
+        - task: clear
+        - cmd: 'powershell Compress-Archive -Path "src/*" -DestinationPath {{.ZipName}}'
+          platforms: [windows]
+        - cmd: zip src/* {{.ZipName}}
+          platforms: [darwin, linux]
