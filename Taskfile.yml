@@ -1,7 +1,8 @@
 version: '3'
 
 vars: 
-  ZipName: deploy/ladyv.zip
+  ZipName: release/ladyv.zip
+  EsLintConfig: eslint.config.js
 
 tasks:
     clear: 
@@ -11,10 +12,38 @@ tasks:
           platforms: [windows]
         - cmd: rm -fr {{.ZipName}}
           platforms: [darwin,linux]
+        - cmd: 'powershell Get-ChildItem -Path stage -Include * | Remove-Item -recurse'
+          platforms: [windows]
+        - cmd: rm -fr {{.ZipName}}
+          platforms: [darwin,linux]
+        - cmd: rm -fr stage/*
+          platforms: [darwin,linux]
     build: 
       cmds:
         - task: clear
-        - cmd: 'powershell Compress-Archive -Path "src/*" -DestinationPath {{.ZipName}}'
+        - task: stage
+        - task: lint
+        - task: csso
+        - task: zip
+    zip:
+      cmds:
+        - cmd: 'powershell Compress-Archive -Path "stage/*" -DestinationPath {{.ZipName}}'
           platforms: [windows]
-        - cmd: zip src/* {{.ZipName}}
+        - cmd: zip stage/* {{.ZipName}}
           platforms: [darwin, linux]
+    stage:
+      cmds:
+        - cmd: 'powershell copy "src/*" "stage/"'
+          platforms: [windows]
+        - cmd: cp src/* stage/
+          platforms: [darwin, linux]
+    lint:
+      cmds:
+        - cmd: 'cp tests/eslint/eslint.config.js stage'
+          platforms: [darwin,linux]
+        - cmd: 'powershell copy tests/eslint/eslint.config.js stage'
+          platforms: [windows]
+        - "docker run -it --rm -v ${pwd}/stage:/code --workdir /code/ --entrypoint eslint eslint"
+    csso:
+      cmds:
+        - "docker run -it --rm -v ${pwd}/stage:/code --workdir /code/ --entrypoint /bin/sh csso -c 'find . -name \"*.css\" -exec csso {} --output {} \\;'"
