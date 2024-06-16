@@ -7,8 +7,8 @@ deletedia.querySelector("button[value=yes]").addEventListener("click", (e) => { 
 deletedia.querySelector("button[value=no]").addEventListener("click", (e) => { console.log("no"); deletedia.close(); });
 
 document.getElementById("save").addEventListener('click', (e) => {
-    e.preventDefault()
-    char = new Character()
+    e.preventDefault();
+    char = new Character();
     char.setFromElement(document.getElementById("character-edit"));
     console.log(editingTarget);
     if (editingTarget == null) {
@@ -21,23 +21,23 @@ document.getElementById("save").addEventListener('click', (e) => {
         editingTarget.innerHTML = `${char.getConfigAvatar()}<button data-action="edit">Edit</button><button data-action="delete">Delete</button>`;
         editingTarget = null;
     }
-    document.querySelector('#character-edit .str').value = ""
-    document.querySelector('#character-edit .dex').value = ""
-    document.querySelector('#character-edit .con').value = ""
-    document.querySelector('#character-edit .wis').value = ""
-    document.querySelector('#character-edit .int').value = ""
-    document.querySelector('#character-edit .cha').value = ""
-    document.querySelector('#character-edit .name').value = ""
-    document.querySelector('#character-edit .class').value = ""
-    document.querySelector('#character-edit .race').value = ""
-    document.querySelector('#character-edit .level').value = ""
-    document.querySelector('#character-edit .maxhp').value = ""
-    document.querySelector('#character-edit .ac').value = ""
+    document.querySelector('#character-edit .str').value = "";
+    document.querySelector('#character-edit .dex').value = "";
+    document.querySelector('#character-edit .con').value = "";
+    document.querySelector('#character-edit .wis').value = "";
+    document.querySelector('#character-edit .int').value = "";
+    document.querySelector('#character-edit .cha').value = "";
+    document.querySelector('#character-edit .name').value = "";
+    document.querySelector('#character-edit .class').value = "";
+    document.querySelector('#character-edit .race').value = "";
+    document.querySelector('#character-edit .level').value = "";
+    document.querySelector('#character-edit .maxhp').value = "";
+    document.querySelector('#character-edit .ac').value = "";
 });
 
 function deleteMe(e) {
     immadelete = e.parentNode;
-    deletedia.dataset.target = e
+    deletedia.dataset.target = e;
     deletedia.showModal();
 }
 
@@ -61,18 +61,18 @@ document.getElementById("mainform").addEventListener('submit', (ev) => {
         char = new Character();
         char.setFromElement(editingTarget);
         console.log(char);
-        document.querySelector('#character-edit .str').value = char.stats.str
-        document.querySelector('#character-edit .dex').value = char.stats.dex
-        document.querySelector('#character-edit .con').value = char.stats.con
-        document.querySelector('#character-edit .wis').value = char.stats.wis
-        document.querySelector('#character-edit .int').value = char.stats.int
-        document.querySelector('#character-edit .cha').value = char.stats.cha
-        document.querySelector('#character-edit .name').value = char.name
-        document.querySelector('#character-edit .class').value = char.class
-        document.querySelector('#character-edit .race').value = char.race
-        document.querySelector('#character-edit .level').value = char.level
-        document.querySelector('#character-edit .maxhp').value = char.maxhp
-        document.querySelector('#character-edit .ac').value = char.ac
+        document.querySelector('#character-edit .str').value = char.stats.str;
+        document.querySelector('#character-edit .dex').value = char.stats.dex;
+        document.querySelector('#character-edit .con').value = char.stats.con;
+        document.querySelector('#character-edit .wis').value = char.stats.wis;
+        document.querySelector('#character-edit .int').value = char.stats.int;
+        document.querySelector('#character-edit .cha').value = char.stats.cha;
+        document.querySelector('#character-edit .name').value = char.name;
+        document.querySelector('#character-edit .class').value = char.class;
+        document.querySelector('#character-edit .race').value = char.race;
+        document.querySelector('#character-edit .level').value = char.level;
+        document.querySelector('#character-edit .maxhp').value = char.maxhp;
+        document.querySelector('#character-edit .ac').value = char.ac;
         ev.preventDefault();
         return;
     }
@@ -82,13 +82,13 @@ document.getElementById("mainform").addEventListener('submit', (ev) => {
     AllConfig.characters = [];
     document.querySelectorAll('.acharacter').forEach((e) => {
         console.log(e);
-        char = new Character()
+        char = new Character();
         char.setFromElement(e);
-        AllConfig.characters.push(char)
-    })
+        AllConfig.characters.push(char);
+    });
     // Update config
     try {
-        Twitch.ext.configuration.set('broadcaster', '', AllConfig.toString())
+        Twitch.ext.configuration.set('broadcaster', '', AllConfig.toString());
     } catch (e) {
         console.error("Save", e);
     }
@@ -99,5 +99,5 @@ document.getElementById("mainform").addEventListener('submit', (ev) => {
     }
 });
 
-var data = { "characters": [] }
-var repeat = 0
+var data = { "characters": [] };
+var repeat = 0;

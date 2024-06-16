@@ -4,10 +4,10 @@ class Character {
     stats = {};
     name = {};
     class = {};
-    race = {}
-    level = {}
-    maxhp = {}
-    ac = {}
+    race = {};
+    level = {};
+    maxhp = {};
+    ac = {};
 
     constructor() {
         this.stats = { "str": 0, "dex": 0, "con": 0, "wis": 0, "int": 0, "cha": 0 };
@@ -27,7 +27,7 @@ class Character {
         this.level = level;
         this.maxhp = maxhp;
         this.ac = ac;
-        return this
+        return this;
     }
 
     setFromElement(element) {
@@ -45,7 +45,7 @@ class Character {
         this.level = element.querySelector('.level').value || element.querySelector('.level').dataset.value;
         this.maxhp = element.querySelector('.maxhp').value || element.querySelector('.maxhp').dataset.value;
         this.ac = element.querySelector('.ac').value || element.querySelector('.ac').dataset.value;
-        return this
+        return this;
     }
 
     setFromObject(obj) {
@@ -132,15 +132,15 @@ class Character {
 
 // All configuration (characters and campaign/summary) expressed as an Object
 class AllConfigClass {
-    characters = []
-    campaign = ""
-    summary = ""
+    characters = [];
+    campaign = "";
+    summary = "";
     toString() {
         var returning = `{"characters": `;
         var chars = [];
         AllConfig.characters.forEach((e) => {
-            chars.push(e)
-        })
+            chars.push(e);
+        });
         return JSON.stringify({ "campaign": this.campaign, "summary": this.summary, "characters": AllConfig.characters });
     }
     fromObject(object) {
@@ -148,10 +148,10 @@ class AllConfigClass {
         this.summary = object.summary;
         this.characters = [];
         object.characters.forEach((e) => {
-            var char = new Character
+            var char = new Character;
             char.setFromObject(e);
             this.characters.push(char);
-        })
+        });
     }
 }
 var AllConfig = new AllConfigClass();
@@ -161,20 +161,20 @@ const characterHolder= document.getElementById("characters");
 document.addEventListener("DOMContentLoaded", (event) => {
     var repeat = setInterval(() => {
         if (typeof window.Twitch == 'undefined') {
-            console.log("No")
+            console.log("No");
             return;
         }
-        clearInterval(repeat)
+        clearInterval(repeat);
         window.Twitch.ext.configuration.onChanged(() => {
-            console.log("Changed")
-            getConfigLoaded()
+            console.log("Changed");
+            getConfigLoaded();
         });
         if (typeof window.Twitch.ext.configuration.broadcaster != 'undefined') {
-            console.log("Already")
-            getConfigLoaded()
+            console.log("Already");
+            getConfigLoaded();
         }
     }, 500);
-    console.log("Waiting")
+    console.log("Waiting");
 });
 
 // Convert the Twitch config string into the AllConfig JSON object
@@ -182,19 +182,19 @@ async function getConfigLoaded() {
     var broadcaster_config = window.Twitch.ext.configuration.broadcaster;
     if (broadcaster_config && broadcaster_config.content) {
         try {
-            data = JSON.parse(broadcaster_config.content)
+            data = JSON.parse(broadcaster_config.content);
             // we have broadcaster config loaded and parsed it to JSON
         } catch (e) {
         }
     }
     AllConfig.characters = [];
     data.characters.forEach((e) => {
-        let c = new Character()
-        c.setFromObject(e)
-        AllConfig.characters.push(c)
-    })
+        const c = new Character();
+        c.setFromObject(e);
+        AllConfig.characters.push(c);
+    });
     
-    AllConfig.campaign = data.campaign
-    AllConfig.summary = data.summary
+    AllConfig.campaign = data.campaign;
+    AllConfig.summary = data.summary;
     readyToGo(data);
 }

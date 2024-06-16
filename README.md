@@ -57,14 +57,16 @@ A twitch overlay for Lady V's D&D streams that shows an interactive plate for vi
 # Todo
 
 * [x] Basic test of overlay runs
-* [ ] Config
+* [x] Config
   * [ ] Pick a layout
-  * [ ] Add characters (portrait, stats, name, player)
-* [ ] Display
-  * [ ] Portraits show
-  * [ ] Clicking portraits cycles through details
+  * [x] Add characters (details)
+* [x] Display
+  * [x] Summary
+  * [x] Clicking a character shows their stats
+  * [x] Back and close navigation
 * [ ] Code tidying
-  * [ ] Character as an Object
+  * [x] Character as an Object
+* [ ] Live updating via send/listen
 
 # References
 

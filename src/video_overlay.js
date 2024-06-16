@@ -36,10 +36,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
 });
 var repeat2 = setInterval(() => {
     if (typeof window.Twitch == 'undefined') {
-        console.log("No")
+        console.log("No");
         return;
     }
-    clearInterval(repeat2)
+    clearInterval(repeat2);
     Twitch.ext.onAuthorized(() => {
         console.log("Founded");
         window.Twitch.ext.listen("broadcast", updateInfo);
