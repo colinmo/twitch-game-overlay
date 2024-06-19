@@ -157,26 +157,6 @@ class AllConfigClass {
 var AllConfig = new AllConfigClass();
 const characterHolder= document.getElementById("characters");
 
-// Once the page is loaded, kick things off
-document.addEventListener("DOMContentLoaded", (event) => {
-    var repeat = setInterval(() => {
-        if (typeof window.Twitch == 'undefined') {
-            console.log("No");
-            return;
-        }
-        clearInterval(repeat);
-        window.Twitch.ext.configuration.onChanged(() => {
-            console.log("Changed");
-            getConfigLoaded();
-        });
-        if (typeof window.Twitch.ext.configuration.broadcaster != 'undefined') {
-            console.log("Already");
-            getConfigLoaded();
-        }
-    }, 500);
-    console.log("Waiting");
-});
-
 // Convert the Twitch config string into the AllConfig JSON object
 async function getConfigLoaded() {
     var broadcaster_config = window.Twitch.ext.configuration.broadcaster;
@@ -198,3 +178,8 @@ async function getConfigLoaded() {
     AllConfig.summary = data.summary;
     readyToGo(data);
 }
+
+window.Twitch.ext.configuration.onChanged(() => {
+    console.log("Changed");
+    getConfigLoaded();
+});

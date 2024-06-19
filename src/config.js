@@ -76,6 +76,7 @@ document.getElementById("mainform").addEventListener('submit', (ev) => {
         ev.preventDefault();
         return;
     }
+    console.log("Saving");
     ev.preventDefault();
     AllConfig.campaign = document.querySelector("#capname").value;
     AllConfig.summary = document.querySelector("#capsumm").value;
@@ -88,12 +89,14 @@ document.getElementById("mainform").addEventListener('submit', (ev) => {
     });
     // Update config
     try {
+        console.log("Save");
         Twitch.ext.configuration.set('broadcaster', '', AllConfig.toString());
     } catch (e) {
         console.error("Save", e);
     }
     try {
-        Twitch.ext.send("broadcaster", "application/json", AllConfig.toString());
+        console.log("Send");
+        Twitch.ext.send("broadcast", "application/json", AllConfig.toString());
     } catch (e) {
         console.error("Send", e);
     }

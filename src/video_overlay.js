@@ -34,14 +34,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         document.getElementById('showscreen').checked = true;
     }
 });
-var repeat2 = setInterval(() => {
-    if (typeof window.Twitch == 'undefined') {
-        console.log("No");
-        return;
-    }
-    clearInterval(repeat2);
-    Twitch.ext.onAuthorized(() => {
-        console.log("Founded");
-        window.Twitch.ext.listen("broadcast", updateInfo);
-    });
-}, 500);
+Twitch.ext.onAuthorized(() => {
+    console.log("Founded");
+    window.Twitch.ext.listen("broadcast", updateInfo);
+});
