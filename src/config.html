@@ -16,9 +16,10 @@
         <fieldset id="campaign">
             <legend>Campaign information</legend>
             <label for="capname">Name</label>
-            <input type="text" id="capname" name="capname" />
+            <input type="text" id="capname" name="capname" maxlength="30"/>
             <label for="capsumm">Summary</label>
-            <textarea id="capsumm" name="capsumm" rows="6" cols="50"></textarea>
+            <textarea id="capsumm" name="capsumm" rows="6" cols="50" maxlength="150"></textarea>
+            <p style="font-size:smaller;">Max 150 chars</p>
         </fieldset>
         <fieldset id="characters">
             <legend>All characters</legend>

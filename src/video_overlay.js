@@ -1,8 +1,4 @@
 
-
-document.addEventListener("DOMContentLoaded", (event) => {
-});
-
 function updateInfo(target, contentType, message) {
     console.log("New info!", message);
     if (document.getElementById("campname") != null) {

@@ -10,7 +10,7 @@
 }
 label[for=showwindow] {
     position: absolute;
-    top: 0;
+    top: 5px;
     right: 5px;
     z-index: 2;
 }
@@ -37,12 +37,8 @@ body {
     top: calc(50% - 50px);
     height: 100px;
     width: min-content;
-    background:white;
+    background:rgba(0,0,0,0.1);
 }
-.wrapper .toggle-display * {
-    border: thin solid red;
-}
-
 #showwindow {
     position: absolute;
     left: -9999px;

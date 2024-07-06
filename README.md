@@ -66,7 +66,7 @@ A twitch overlay for Lady V's D&D streams that shows an interactive plate for vi
   * [x] Back and close navigation
 * [x] Code tidying
   * [x] Character as an Object
-* [ ] Live updating via send/listen
+* [x] Live updating via send/listen
 
 # References
 
