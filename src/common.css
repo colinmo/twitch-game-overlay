@@ -10,7 +10,7 @@
 }
 
 .acharacter {
-    width: 20em;
+    width: calc(20em - 20px);
     display: grid;
     grid-template-areas:
         "title title title title title title"

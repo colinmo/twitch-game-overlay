@@ -10,14 +10,14 @@
 }
 label[for=showwindow] {
     position: absolute;
-    top: 5px;
     right: 5px;
     z-index: 2;
+    top: 5px;
 }
 
 
 body {
-    margin: 1em;
+    margin: 0;
     height: 100%;
 }
 
@@ -26,18 +26,26 @@ body {
 }
 
 .wrapper {
-    width: 100%;
-    height: calc(100% - 2em);
     margin: 0;
+    padding: 1em 1em 1em 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    overflow-x: hidden;
 }
 
 .wrapper .toggle-display {
+    transition: 0.5s;
     position: absolute;
-    right: 0;
-    top: calc(50% - 50px);
+    left:0px;
+    top: calc(100% - 150px);
     height: 100px;
-    width: min-content;
     background:rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+.wrapper:hover .toggle-display {
+    left: calc(min(50px,5vw) + 10px);
 }
 #showwindow {
     position: absolute;
@@ -60,6 +68,7 @@ body {
     top: calc(50% - 125px);
     height: 250px;
     width: 220px;
+    z-index: 2;
 }
 
 #campcharacters {

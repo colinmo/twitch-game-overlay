@@ -67,6 +67,13 @@ A twitch overlay for Lady V's D&D streams that shows an interactive plate for vi
 * [x] Code tidying
   * [x] Character as an Object
 * [x] Live updating via send/listen
+* [x] Fix padding on box
+* [x] Icon fixes
+  * [x] Make icon resize with display
+  * [x] Move to bottom right
+  * [x] Make it pop in and out of stream when you hover over the iframe
+* [ ] Live updates of characters doesn't work.
+  * [ ] Individual characters and stats
 
 # References
 
