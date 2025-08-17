@@ -1,3 +1,5 @@
+**NOTE** This has been archived as of August 2025.
+
 # Lady V's Twitch Overlay
 
 ## Goal
